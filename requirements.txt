@@ -1,0 +1,52 @@
+Tecnologias obrigatórias:
+- Flask ✅
+- SQLAlchemy ✅
+- Banco de dados relacional - SQL ✅
+ 
+Regras de negócio:
+- Um CRUD de rede social onde vão ter usuários e posts(somente textos). ✅
+- A única ação que o usuário deve conseguir realizar sem estar logado é criar uma conta.✅
+ 
+ 
+CRIAR UMA API COM AS SEGUINTES CONFIGURAÇÕES:
+ 
+Controller de autenticação com:
+- Login ✅
+ 
+Controller de usuário com:
+- Criação de usuário ✅
+- Edição de usuário ✅
+- Buscar usuário por id ✅
+- Listar usuários ✅
+- Deletar usuário ✅
+ 
+Controller de posts com:
+- Criação de post (usuário) ✅
+- Edição de post (usuário) ✅
+- Buscar post por id (admin) ✅
+- Listar todos os posts (trazer em cada post o autor: id do usuário, nome do usuário) (admin) ✅
+- Listar posts por id de usuário (admin) ✅
+- Deletar post (usuário) ✅
+ 
+Criar a regra de que somente usuários administradores podem:
+- Editar um usuário sem ser o dele ✅
+- Deletar um usuário sem ser o dele ✅
+- Editar um post sem ser o dele ✅
+- Deletar um post sem ser o dele ✅
+ 
+Subir o código para o GitHub e enviar a URL do repositório.
+
+ 
+Pontos de avaliação
+- Apenas o back, não precisa do front
+- Atender aos requisitos
+- Código limpo, de fácil manutenção
+- Uso de boas práticas
+- Tempo de entrega
+ 
+ 
+Desejável:
+- Testes Automatizados
+- Rodar a aplicação no Docker
+- Documentação com Swagger  
+Flask~=3.0.3

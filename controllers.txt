@@ -1,0 +1,171 @@
+Controller de criação de usuário (POST):
+
+{
+    "username": "novousuario",
+    "password": "senha123"
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Controller de login (POST):
+
+{
+    "username": "novousuario",
+    "password": "senha123"
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Controller de listagem de usuários (GET):
+
+Enviar uma solicitaão com método GET para a url http://127.0.0.1:5000/users
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Controller de busca de usuário por id (GET):
+
+Enviar uma solicitação com método GET para a url http://127.0.0.1:5000/users/id_do_usuário
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Controller de edição de usuário (PUT):
+
+Enviar uma solicitação com método PUT para a url http://127.0.0.1:5000/users
+
+&
+
+{
+    "username": "usuario_antigo",
+    "password": "senha_antiga",
+    "new_username": "usuario_novo",
+    "new_password": "senha_nova"
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Controller de deleção de usuário (DELETE):
+
+Enviar uma solicitação com método DELETE para a url http://127.0.0.1:5000/users
+
+&
+
+{
+    "username": "usuario",
+    "password": "senha"
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Controller de criação de posts (POST):
+
+Enviar uma solicitação com método POST para a url http://127.0.0.1:5000/users/posts
+
+{
+    "username": "nome_do_usuario",
+    "password": "senha_do_usuario",
+    "content": "conteudo_do_post"
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Controller de listagem de todos os posts (GET):
+
+Enviar uma solicitação com método GET para a url http://127.0.0.1:5000/users/posts
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Controller de listagem de posts por id (GET):
+
+Enviar uma solicitação com método GET para a url http://127.0.0.1:5000/users/posts/id_do_post
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Controller de edição de post (PUT):
+
+Enviar uma solicitação com método PUT para a url http://127.0.0.1:5000/users/posts
+
+&
+
+{
+    "username": "nome_do_usuario",
+    "password": "senha_do_usuario",
+    "old_content": "conteudo_antigo_do_post",
+    "new_content": "conteudo_novo_do_post"
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Controller de deleção de post (DELETE):
+
+Enviar uma solicitação com método DELETE para a url http://127.0.0.1:5000/users/posts
+
+&
+
+{
+    "username": "nome_do_usuario",
+    "password": "senha_do_usuario",
+    "content": "conteudo_do_post"
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Controller de edição de usuário através de um admin:
+
+Enviar solicitação com método PUT para a url http://127.0.0.1:5000/admins/users
+
+&
+
+{
+    "admin_name": "nome_do_admin",
+    "admin_password": "senha_do_admin",
+    "old_username": "nome_antigo_do_usuario",
+    "new_username": "nome_novo_do_usuario"
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Controller de deleção de usuário através de um admin:
+
+Enviar solicitação com método DELETE para a url http://127.0.0.1:5000/admins/users
+
+&
+
+{
+    "admin_name": "nome_do_admin",
+    "admin_password": "senha_do_admin",
+    "username": "nome_do_usuario"
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Controller edição de post através de um admin:
+
+Enviar solicitação com método PUT para a url http://127.0.0.1:5000/admins/users/posts
+
+&
+
+{
+    "admin_name": "nome_do_admin",
+    "admin_password": "senha_do_admin",
+    "username": "nome_do_usuario",
+    "old_content": "conteudo_antigo_do_post",
+    "new_content": "conteudo_novo_do_post"
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Controller de deleção de post através de um admin:
+
+Enviar solicitação com método DELETE para a url http://127.0.0.1:5000/admins/users/posts
+
+&
+
+{
+    "admin_name": "nome_do_admin",
+    "admin_password": "senha_do_admin",
+    "username": "nome_do_usuario",
+    "content": "conteudo_do_post"
+}
