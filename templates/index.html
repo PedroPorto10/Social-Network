@@ -3,9 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
+    <title>Flick</title>
+    <link rel="stylesheet" href="../static/index.css">
 </head>
 <body>
-    Bem vindo(a) {{ username }}!
+<div class="container">
+    <aside class="sidebar">
+        <h2>Minha Rede</h2>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Explorar</a></li>
+                <li><a href="#">Notificações</a></li>
+                <li><a href="#">Mensagens</a></li>
+                <li><a href="#">Perfil</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="feed">
+        <div class="post-box">
+            <textarea placeholder="O que está acontecendo?"></textarea>
+            <button>Publicar</button>
+        </div>
+        <div class="post">
+            <h3>Usuário</h3>
+            <p>Este é um exemplo de post na rede social.</p>
+        </div>
+    </main>
+
+    <aside class="widgets">
+        <h3>Sugestões para seguir</h3>
+        <ul>
+            <li><a href="#">@usuario1</a></li>
+            <li><a href="#">@usuario2</a></li>
+        </ul>
+    </aside>
+</div>
 </body>
 </html>
