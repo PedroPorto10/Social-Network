@@ -2,6 +2,8 @@ from flask import request, jsonify, render_template, redirect, url_for, flash
 from app import app, db
 from models import User, Post, Admin
 
+
+
 # Rota para abrir a página inicial do site (página de login)
 @app.route('/', methods=['GET'])
 def form():
@@ -23,20 +25,9 @@ def signup_hub():
 
 
 
-# Controller de criação de usuário
-@app.route('/users', methods=['POST'])
-def create_user():
-    data = request.get_json()
-    new_user = User(username=data['username'], password=data['password'])
-    db.session.add(new_user)
-    db.session.commit()
-    return jsonify({"message": "User created"}), 201
-
-
-
 # Rota para criar usuário na página de signup
 @app.route('/createUser', methods=['POST'])
-def createUser():
+def create_user():
     if request.method == 'POST':
         email = request.form['email']
         username = request.form['username']
@@ -45,30 +36,19 @@ def createUser():
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
             # flash("Usuário ja existe.", "error")
-            return render_template('signup.html')
+            return render_template('signup.html'), 200
         else:
             new_user = User(username=username, email=email, password=password)
             db.session.add(new_user)
             db.session.commit()
-            return render_template('index.html', username=username)
-    return render_template('signup.html')
-
-
-
-# Controller de login para usuários existentes
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.get_json()
-    user = User.query.filter_by(username=data['username']).first()
-    if user and user.password == data['password']:
-        return jsonify({"message": "Login successful"}), 200
-    return jsonify({"message": "Invalid credentials"}), 401
+            return render_template('index.html', username=username), 200
+    return render_template('signup.html'), 200
 
 
 
 # Rota para verificar login no banco de dados
 @app.route('/verifyUser', methods=['POST'])
-def verifyUser():
+def verify_user():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -82,24 +62,6 @@ def verifyUser():
         if admin:
             return render_template('admin.html')
     return render_template('login.html')
-
-
-
-# Controller de listagem de usuários
-@app.route('/users', methods=['GET'])
-def list_users():
-    users = User.query.all()
-    return jsonify([user.to_dict() for user in users])
-
-
-
-# Controller de busca de usuário por id
-@app.route('/users/<int:id>', methods=['GET'])
-def get_user(id):
-    user = User.query.get(id)
-    if user:
-        return jsonify(user.to_dict())
-    return jsonify({"message": "User not found"}), 404
 
 
 
