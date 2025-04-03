@@ -1,106 +1,107 @@
-from flask import request, jsonify, render_template, redirect, url_for, flash
+from flask import request, jsonify, render_template, redirect, url_for, flash, session
 from app import app, db
 from models import User, Post, Admin
 
+app.secret_key = 'poseidon'
 
-
-# Rota para abrir a página inicial do site (página de login)
 @app.route('/', methods=['GET'])
 def form():
     return render_template('login.html')
 
 
 
-# Rota para direcionar o usuário para a página de login
 @app.route('/login_hub', methods=['GET'])
 def login_hub():
     return render_template('login.html')
 
 
 
-# Rota para retornar o template 'signup.html'
 @app.route('/signup_hub', methods=['GET'])
 def signup_hub():
     return render_template('signup.html')
 
 
 
-# Rota para criar usuário na página de signup
+@app.route('/index', methods=['GET'])
+def index():
+    if 'username' not in session:
+        return redirect(url_for('login_hub'))
+
+    username = session['username']
+    users = [u.username for u in User.query.filter(User.username != username).all()]
+
+    return render_template('index.html', username=username, users=users)
+
+
+
+@app.route('/user_profile', methods=['GET'])
+def user_profile():
+    if 'username' in session:
+        return render_template('profile.html', username=session['username'])
+    return redirect(url_for('login_hub'))
+
+
+
 @app.route('/createUser', methods=['POST'])
 def create_user():
-    if request.method == 'POST':
-        email = request.form['email']
-        username = request.form['username']
-        password = request.form['password']
-        
-        existing_user = User.query.filter_by(username=username).first()
-        if existing_user:
-            # flash("Usuário ja existe.", "error")
-            return render_template('signup.html'), 200
-        else:
-            new_user = User(username=username, email=email, password=password)
-            db.session.add(new_user)
-            db.session.commit()
-            return render_template('index.html', username=username), 200
-    return render_template('signup.html'), 200
+    email = request.form['email']
+    username = request.form['username']
+    password = request.form['password']
+
+    if User.query.filter_by(username=username).first():
+        flash("Usuário já existe.", "error")
+        return redirect(url_for('signup_hub'))
+
+    new_user = User(username=username, email=email, password=password)
+    db.session.add(new_user)
+    db.session.commit()
+    session['username'] = username
+    return redirect(url_for('user_profile'))
 
 
 
-# Rota para verificar login no banco de dados
 @app.route('/verifyUser', methods=['POST'])
 def verify_user():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        
-        user = User.query.filter_by(username=username, password=password).first()
-        if user:
-            return render_template('index.html', username=username)
-        # else:
-        #     flash("Nome de usuário ou senha incorretos.", "error")
-        admin = Admin.query.filter_by(admin_name=username, admin_password=password).first()
-        if admin:
-            return render_template('admin.html')
-    return render_template('login.html')
+    username = request.form['username']
+    password = request.form['password']
+
+    user = User.query.filter_by(username=username, password=password).first()
+    if user:
+        session['username'] = user.username
+        user_list = [u.username for u in User.query.filter(User.username != username).all()]
+        return redirect(url_for('index'))
+
+    admin = Admin.query.filter_by(admin_name=username, admin_password=password).first()
+    if admin:
+        return redirect(url_for('admin_dashboard'))
+
+    flash("Nome de usuário ou senha incorretos.", "error")
+    return redirect(url_for('login_hub'))
 
 
 
-# Controller de edição de usuário
 @app.route('/users', methods=['PUT'])
 def edit_user():
     data = request.get_json()
-    
-    username = data.get('username')
-    password = data.get('password')
-    
-    user = User.query.filter_by(username=username, password=password).first()
+    user = User.query.filter_by(username=data.get('username'), password=data.get('password')).first()
     if not user:
         return jsonify({"message": "User not found"}), 404
-    
-    if 'new_username' in data:
-        user.username = data['new_username']
-    if 'new_password' in data:
-        user.password = data['new_password']
-    
+
+    user.username = data.get('new_username', user.username)
+    user.password = data.get('new_password', user.password)
     db.session.commit()
     return jsonify({"message": "User updated"}), 200
 
 
 
-# Controller de deleção de usuário
 @app.route('/users', methods=['DELETE'])
 def delete_user():
     data = request.get_json()
-    
-    username = data.get('username')
-    password = data.get('password')
-    
-    user = User.query.filter_by(username=username, password=password).first()
+    user = User.query.filter_by(username=data.get('username'), password=data.get('password')).first()
     if not user:
-        return jsonify({"message": "User not found or invalid credentials"}), 404
-    if 'username' in data and 'password' in data:
-        db.session.delete(user)
-        
+        return jsonify({"message": "User not found"}), 404
+
+    db.session.delete(user)
     db.session.commit()
     return jsonify({"message": "User deleted"}), 200
 
