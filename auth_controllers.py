@@ -61,6 +61,27 @@ def create_user():
     return redirect(url_for('index'))
 
 
+
+@app.route('/verifyUser', methods=['POST'])
+def verify_user():
+    username = request.form['username']
+    password = request.form['password']
+
+    user = User.query.filter_by(username=username, password=password).first()
+    if user:
+        session['username'] = user.username
+        user_list = [u.username for u in User.query.filter(User.username != username).all()]
+        return redirect(url_for('index'))
+
+    admin = Admin.query.filter_by(admin_name=username, admin_password=password).first()
+    if admin:
+        return redirect(url_for('admin_dashboard'))
+
+    flash("Nome de usuário ou senha incorretos.", "error")
+    return redirect(url_for('login_hub'))
+
+
+
 @app.route('/createPost', methods=['POST'])
 def create_post():
     if 'username' not in session:
@@ -89,26 +110,7 @@ def create_post():
 
 
 
-@app.route('/verifyUser', methods=['POST'])
-def verify_user():
-    username = request.form['username']
-    password = request.form['password']
-
-    user = User.query.filter_by(username=username, password=password).first()
-    if user:
-        session['username'] = user.username
-        user_list = [u.username for u in User.query.filter(User.username != username).all()]
-        return redirect(url_for('index'))
-
-    admin = Admin.query.filter_by(admin_name=username, admin_password=password).first()
-    if admin:
-        return redirect(url_for('admin_dashboard'))
-
-    flash("Nome de usuário ou senha incorretos.", "error")
-    return redirect(url_for('login_hub'))
-
-
-
+# Controller para alterar o nome e/ou senha do usuário
 @app.route('/users', methods=['PUT'])
 def edit_user():
     data = request.get_json()
@@ -123,6 +125,7 @@ def edit_user():
 
 
 
+# Controller para deletar usuário
 @app.route('/users', methods=['DELETE'])
 def delete_user():
     data = request.get_json()
@@ -133,27 +136,6 @@ def delete_user():
     db.session.delete(user)
     db.session.commit()
     return jsonify({"message": "User deleted"}), 200
-
-
-
-
-
-
-
-# Controller de listagem de todos os posts
-@app.route('/users/posts', methods=['GET'])
-def list_posts():
-    posts = Post.query.all()
-    return jsonify([post.to_dict() for post in posts])
-
-
-# Controller de listagem de posts por id
-@app.route('/users/posts/<int:id>', methods=['GET'])
-def get_post(id):
-    post = Post.query.get(id)
-    if post:
-        return jsonify(post.to_dict())
-    return jsonify({"message": "Post not found"}), 404
 
 
 
