@@ -30,7 +30,9 @@ def index():
     username = session['username']
     users = [u.username for u in User.query.filter(User.username != username).all()]
 
-    return render_template('index.html', username=username, users=users)
+    posts = Post.query.order_by(Post.id.desc()).all()
+
+    return render_template('index.html', username=username, users=users, posts=posts)
 
 
 
@@ -56,7 +58,34 @@ def create_user():
     db.session.add(new_user)
     db.session.commit()
     session['username'] = username
-    return redirect(url_for('user_profile'))
+    return redirect(url_for('index'))
+
+
+@app.route('/createPost', methods=['POST'])
+def create_post():
+    if 'username' not in session:
+        flash("Você precisa estar logado para postar.", "error")
+        return redirect(url_for('login_hub'))
+
+    username = session['username']
+    user = User.query.filter_by(username=username).first()
+
+    if not user:
+        flash("Usuário não encontrado.", "error")
+        return redirect(url_for('login_hub'))
+
+    content = request.form.get('content')
+
+    if not content.strip():
+        flash("O post não pode estar vazio.", "error")
+        return redirect(url_for('index'))
+
+    new_post = Post(content=content, username=username)
+    db.session.add(new_post)
+    db.session.commit()
+
+    flash("Post publicado com sucesso!", "success")
+    return redirect(url_for('index'))
 
 
 
@@ -107,25 +136,7 @@ def delete_user():
 
 
 
-# Controller de criação de post
-@app.route('/users/posts', methods=['POST'])
-def create_post():
-    data = request.get_json()
-    
-    username = data.get('username')
-    password = data.get('password')
-    
-    new_post_content = data.get('content')
 
-    user = User.query.filter_by(username=username, password=password).first()
-    if not user:
-        return jsonify({"message": "User not found or invalid credentials"}), 404
-
-    new_post = Post(content=new_post_content, user_id=user.id)
-    db.session.add(new_post)
-    db.session.commit()
-
-    return jsonify({"message": "Post created"}), 201
 
 
 

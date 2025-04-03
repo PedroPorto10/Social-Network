@@ -13,9 +13,10 @@ class User(db.Model):
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(200), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    # user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    username = db.Column(db.String(80), db.ForeignKey('user.username'), nullable=False)
     user = db.relationship('User', back_populates='posts')
-    
+
     def to_dict(self):
         return {"id": self.id, "content": self.content, "user_id": self.user_id}
 

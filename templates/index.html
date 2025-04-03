@@ -22,15 +22,21 @@
     </aside>
 
     <main class="feed">
-        <div class="post-box">
-            <textarea placeholder="O que está acontecendo?"></textarea>
-            <button>Publicar</button>
-        </div>
-        <div class="post">
-            <h3>Usuário</h3>
-            <p>Este é um exemplo de post na rede social.</p>
-        </div>
+        <form class="form" action="{{ url_for('create_post') }}" method="POST">
+            <div class="post-box">
+                <textarea name="content" placeholder="O que está acontecendo?" required></textarea>
+                <button type="submit">Publicar</button>
+            </div>
+        </form>
+
+        {% for post in posts %}
+            <div class="post">
+                <h3>{{ post.user.username }}</h3>
+                <p>{{ post.content }}</p>
+            </div>
+        {% endfor %}
     </main>
+
 
     <aside class="widgets">
         <h3>Outros Usuários</h3>
