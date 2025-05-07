@@ -39,7 +39,10 @@ def index():
 @app.route('/user_profile', methods=['GET'])
 def user_profile():
     if 'username' in session:
-        return render_template('profile.html', username=session['username'])
+        username = session['username']
+        posts = Post.query.order_by(Post.id.desc()).all()
+        users = [u.username for u in User.query.filter(User.username != username).all()]
+        return render_template('profile.html', username=session['username'], users=users, posts=posts)
     return redirect(url_for('login_hub'))
 
 

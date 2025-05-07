@@ -8,5 +8,16 @@
 </head>
 <body>
     <h2>{{ username }}</h2>
+
+    <main class="profile-feed">
+        {% for user in users %}
+            {% for post in posts %}
+                <div class="post">
+                    <h3>{{ post.user.username }}</h3>
+                    <p>{{ post.content }}</p>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </main>
 </body>
 </html>
