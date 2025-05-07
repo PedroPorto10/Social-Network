@@ -24,7 +24,9 @@
     <main class="feed">
         <form class="form" action="{{ url_for('create_post') }}" method="POST">
             <div class="post-box">
-                <textarea name="content" placeholder="O que está acontecendo?" required></textarea>
+                <label>
+                    <textarea name="content" placeholder="O que está acontecendo?" required></textarea>
+                </label>
                 <button type="submit">Publicar</button>
             </div>
         </form>

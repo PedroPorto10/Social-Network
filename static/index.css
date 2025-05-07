@@ -36,14 +36,14 @@ body {
     border: none;
     resize: none;
     background: #6B5CC5;
-    color: #9991B9;
+    color: #F5F5FF;
 }
 
 .post-box button {
     display: block;
     margin-top: 10px;
     background: #320096;
-    color: white;
+    color: #F5F5FF;
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -63,4 +63,8 @@ body {
 
 .sidebar{
     color: #A288FF;
+}
+
+.sidebar ul li a{
+    text-decoration: none;
 }
