@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: #0E0B1E;
+    background: #0F0F1A;
     display: flex;
     justify-content: center;
     color: #F5F5FF;
@@ -25,46 +25,48 @@ body {
 }
 
 .post-box {
-    background: #6B5CC5;
+    background: #1e1c2b;
     padding: 10px;
     border-radius: 8px;
 }
 
 .post-box textarea {
     width: 100%;
-    height: 80px;
+    height: 100px;
     border: none;
     resize: none;
-    background: #6B5CC5;
+    background: #2f2e45;
     color: #F5F5FF;
+    border-radius: 8px;
 }
 
 .post-box button {
     display: block;
     margin-top: 10px;
-    background: #320096;
+    background: #6B3DF0;
     color: #F5F5FF;
-    padding: 10px;
+    padding: 8px 25px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
 .post {
-    background: rgb(121, 102, 220);
+    background: #2f2e45;
     padding: 15px;
     margin-top: 10px;
     border-radius: 8px;
 }
 
 .widgets{
-    color: #A288FF;
+    color: #F5F5FF;
 }
 
 .sidebar{
-    color: #A288FF;
+    color: #F5F5FF;
 }
 
 .sidebar ul li a{
     text-decoration: none;
+    color: #F5F5FF;
 }
